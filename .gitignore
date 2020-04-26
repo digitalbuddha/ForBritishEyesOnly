@@ -11,3 +11,12 @@
 /build
 /captures
 .externalNativeBuild
+/.idea/codeStyles/codeStyleConfig.xml
+/.idea/compiler.xml
+/.idea/gradle.xml
+/.idea/jarRepositories.xml
+/.idea/misc.xml
+/.idea/codeStyles/Project.xml
+/app/src/main/java/com/friendlyrobot/data/ReadCalendar.kt
+/.idea/runConfigurations.xml
+/.idea/vcs.xml

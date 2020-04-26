@@ -1,4 +1,4 @@
-package com.example.helloworkflow
+package com.friendlyrobot.helloworkflow
 
 import org.junit.Test
 
