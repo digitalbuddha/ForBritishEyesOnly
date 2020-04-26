@@ -51,7 +51,7 @@ class CalendarWorkflow constructor(private val calendarStore: Store<Unit, List<C
         return when (state) {
             is State.Loading -> {
                 context.runningWorker(Worker.from {
-                    delay(5000)
+                    delay(500)
                     calendarStore.get(Unit)
                 }) { Action.ShowEvent(it) }
                 Rendering.LoadingRending()
