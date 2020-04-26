@@ -1,20 +1,24 @@
-package com.friendlyrobot.helloworkflow
+package com.friendlyrobot.calendarworkflow
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.friendlyrobot.data.provideStore
+import com.squareup.workflow.diagnostic.SimpleLoggingDiagnosticListener
 import com.squareup.workflow.ui.ViewRegistry
 import com.squareup.workflow.ui.WorkflowRunner
 import com.squareup.workflow.ui.setContentWorkflow
 
-class HelloWorkflowActivity : AppCompatActivity() {
-    private val viewRegistry = ViewRegistry(LoadingLayoutRunner, CalendarLayoutRunner)
+private val viewRegistry = ViewRegistry(calendarRendering, loadingRendering)
 
+class HelloWorkflowActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentWorkflow(viewRegistry) {
-            WorkflowRunner.Config(CalendarWorkflow(provideStore(applicationContext)), Unit)
+            WorkflowRunner.Config(
+                CalendarWorkflow(provideStore(applicationContext)),
+                diagnosticListener = SimpleLoggingDiagnosticListener()
+            )
         }
     }
 

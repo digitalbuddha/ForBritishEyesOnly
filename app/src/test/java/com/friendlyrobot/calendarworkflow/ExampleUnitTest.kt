@@ -1,4 +1,4 @@
-package com.friendlyrobot.helloworkflow
+package com.friendlyrobot.calendarworkflow
 
 import org.junit.Test
 

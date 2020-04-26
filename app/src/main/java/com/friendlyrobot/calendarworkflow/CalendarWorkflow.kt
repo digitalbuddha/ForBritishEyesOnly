@@ -1,10 +1,10 @@
-package com.friendlyrobot.helloworkflow
+package com.friendlyrobot.calendarworkflow
 
 import com.dropbox.android.external.store4.Store
 import com.dropbox.android.external.store4.get
+import com.friendlyrobot.calendarworkflow.CalendarWorkflow.Rendering
+import com.friendlyrobot.calendarworkflow.CalendarWorkflow.State
 import com.friendlyrobot.data.CalendarEvent
-import com.friendlyrobot.helloworkflow.CalendarWorkflow.Rendering
-import com.friendlyrobot.helloworkflow.CalendarWorkflow.State
 import com.squareup.workflow.RenderContext
 import com.squareup.workflow.Snapshot
 import com.squareup.workflow.StatefulWorkflow
@@ -21,7 +21,7 @@ class CalendarWorkflow constructor(private val calendarStore: Store<Unit, List<C
     }
 
     sealed class Rendering {
-        object LoadingRending : Rendering()
+        data class LoadingRending(val loadingMessage: String = "Loading") : Rendering()
         data class Calendar(val calendarEvents: List<CalendarEvent>) : Rendering()
     }
 
@@ -54,7 +54,7 @@ class CalendarWorkflow constructor(private val calendarStore: Store<Unit, List<C
                     delay(5000)
                     calendarStore.get(Unit)
                 }) { Action.ShowEvent(it) }
-                Rendering.LoadingRending
+                Rendering.LoadingRending()
             }
             is State.DisplayingEvents -> Rendering.Calendar(state.calendarEvents)
         }

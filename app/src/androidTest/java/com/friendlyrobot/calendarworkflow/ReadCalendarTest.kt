@@ -1,4 +1,4 @@
-package com.friendlyrobot.helloworkflow
+package com.friendlyrobot.calendarworkflow
 
 import android.Manifest
 import androidx.test.InstrumentationRegistry
