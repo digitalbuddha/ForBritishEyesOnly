@@ -75,6 +75,7 @@ dependencies {
 
     implementation "${workflow.group}:workflow-runtime-jvm:${workflow.version}"
     implementation "${workflow.group}:workflow-ui-core-android:${workflow.version}"
+    implementation "${workflow.group}:workflow-ui-modal-android:${workflow.version}"
     implementation "${workflow.group}:workflow-core-jvm:${workflow.version}"
     implementation "${workflow.group}:workflow-ui-core-compose:${workflow.version}"
 

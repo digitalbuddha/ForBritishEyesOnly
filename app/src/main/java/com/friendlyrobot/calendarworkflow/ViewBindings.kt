@@ -18,6 +18,7 @@ import androidx.ui.material.ripple.Ripple
 import androidx.ui.text.TextStyle
 import androidx.ui.unit.dp
 import com.friendlyrobot.data.CalendarEvent
+import com.friendlyrobot.data.CalendarName
 import com.squareup.workflow.ui.compose.bindCompose
 import java.text.SimpleDateFormat
 
@@ -30,7 +31,13 @@ var timeFormatter: SimpleDateFormat = SimpleDateFormat(hour)
 
 val loadingRendering = bindCompose<CalendarWorkflow.Rendering.LoadingRending> { rendering, _ ->
     MaterialTheme {
-        DrawHelloRendering(rendering)
+        DrawHelloRendering(rendering.loadingMessage)
+    }
+}
+
+val chooseLoadingRending = bindCompose<ChooseWorkflow.Rendering.Loading> { rendering, _ ->
+    MaterialTheme {
+        DrawHelloRendering(rendering.message)
     }
 }
 
@@ -53,11 +60,11 @@ val calendarRendering = bindCompose<CalendarWorkflow.Rendering.Calendar> { rende
 }
 
 @Composable
-private fun DrawHelloRendering(rendering: CalendarWorkflow.Rendering.LoadingRending) {
+private fun DrawHelloRendering(loadingMessage: String) {
     Ripple(bounded = true) {
         Clickable(onClick = { }) {
             Center {
-                Text(rendering.loadingMessage)
+                Text(loadingMessage)
             }
         }
     }
@@ -94,4 +101,44 @@ private fun DateRow(calendarEvent: CalendarEvent) {
     }
 }
 
+val chooseRendering = bindCompose<ChooseWorkflow.Rendering.Calenders> { rendering, _ ->
+    VerticalScroller {
+        Column(modifier = DrawBackground(color = Color.Black)) {
+            Row(modifier = DrawBackground(color = Color.Cyan)) {
+                Text(
+                    text = "Calendar Events",
+                    style = MaterialTheme.typography().h6
+                )
+            }
+            Spacer(modifier = LayoutHeight(16.dp))
 
+            rendering
+                .calendars
+                .forEach { calendar -> ChooseItem(calendar, rendering.onCalendarChosen) }
+        }
+    }
+}
+
+@Composable
+private fun ChooseItem(
+    calendarName: CalendarName,
+    onCalendarChosen: (calender: String) -> Unit
+) {
+    ChooseRow(calendarName, onCalendarChosen)
+    Spacer(modifier = LayoutHeight(20.dp))
+}
+
+@Composable
+private fun ChooseRow(
+    calendarName: CalendarName,
+    onCalendarChosen: (calender: String) -> Unit
+) {
+    Clickable(onClick = {onCalendarChosen(calendarName.id)}) {
+        Row(modifier = DrawBackground(color = Color.Magenta)) {
+            Text(
+                text = calendarName.title,
+                style = MaterialTheme.typography().h6
+            )
+        }
+    }
+}

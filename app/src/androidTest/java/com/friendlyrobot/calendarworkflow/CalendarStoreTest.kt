@@ -5,7 +5,7 @@ import androidx.test.InstrumentationRegistry
 import androidx.test.rule.GrantPermissionRule
 import androidx.test.runner.AndroidJUnit4
 import com.dropbox.android.external.store4.get
-import com.friendlyrobot.data.provideStore
+import com.friendlyrobot.data.provideCalendarStore
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.runBlocking
 import org.junit.Rule
@@ -27,7 +27,7 @@ class CalendarStoreTest {
     @Test
     fun useAppContext() = runBlocking {
         val appContext = InstrumentationRegistry.getTargetContext()
-        val calendarStore = provideStore(appContext)
+        val calendarStore = provideCalendarStore(appContext)
         val result = calendarStore.get(Unit)
         assertThat(result).isNotEmpty()
     }

@@ -11,50 +11,28 @@ import java.util.Date
 import java.util.HashSet
 import java.util.regex.Pattern
 
-fun println(message:String)  = Log.i("tag", message)
+fun println(message: String) = Log.i("tag", message)
 
 var output = mutableListOf<CalendarEvent>()
-data class CalendarEvent(val title:String, val start:Date, val end:Date)
 
+data class CalendarEvent(val title: String, val start: Date, val end: Date)
+data class CalendarName( val id:String, val title: String)
 
 fun println(calendarEvent: CalendarEvent) {
-   output.add(calendarEvent)
+    output.add(calendarEvent)
 }
 
 object ReadCalendar {
     var cursor: Cursor? = null
-    fun readCalendar(context: Context): MutableList<CalendarEvent> {
-        val contentResolver = context.contentResolver
-        // Fetch a list of all calendars synced with the device, their display names and whether the
-        cursor = contentResolver.query(
-            Uri.parse("content://com.android.calendar/calendars"),
-            arrayOf(
-                "_id",
-                CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,
-                CalendarContract.Calendars.IS_PRIMARY
-            ), null, null, null
-        )
-        val calendarIds = HashSet<String>()
-        try {
-           println("Count=" + cursor!!.count)
-            if (cursor!!.count > 0) {
-                println("the control is just inside of the cursor.count loop")
-                while (cursor!!.moveToNext()) {
-                    val _id = cursor!!.getString(0)
-                    val displayName = cursor!!.getString(1)
-                    val selected = cursor!!.getString(2) != "0"
-                    if (_id != "8") continue
-                    println("Id: $_id Display Name: $displayName Selected: $selected")
-                    calendarIds.add(_id)
-                }
-            }
-        } catch (ex: AssertionError) {
-            ex.printStackTrace()
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-        // For each calendar, display all the events from the previous week to the end of next week.
-        for (id in calendarIds) {
+    fun readCalendar(context: Context): HashSet<CalendarName> {
+        return getCalendars(context)
+    }
+
+     fun getEventsFor(
+        id: CalendarId,
+        context: Context): MutableList<CalendarEvent> {
+         val contentResolver = context.contentResolver
+         // For each calendar, display all the events from the previous week to the end of next week.
             val builder =
                 Uri.parse("content://com.android.calendar/instances/when").buildUpon()
             //Uri.Builder builder = Uri.parse("content://com.android.calendar/calendars").buildUpon();
@@ -167,8 +145,38 @@ object ReadCalendar {
                     } while (eventCursor.moveToNext())
                 }
             }
-            break
-        }
         return output
+    }
+
+     fun getCalendars(context: Context): HashSet<CalendarName> {
+        val contentResolver = context.contentResolver
+        // Fetch a list of all calendars synced with the device, their display names and whether the
+        cursor = contentResolver.query(
+            Uri.parse("content://com.android.calendar/calendars"),
+            arrayOf(
+                "_id",
+                CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,
+                CalendarContract.Calendars.IS_PRIMARY
+            ), null, null, null
+        )
+        val calendarIds = HashSet<CalendarName>()
+        try {
+            println("Count=" + cursor!!.count)
+            if (cursor!!.count > 0) {
+                println("the control is just inside of the cursor.count loop")
+                while (cursor!!.moveToNext()) {
+                    val _id = cursor!!.getString(0)
+                    val displayName = cursor!!.getString(1)
+                    val selected = cursor!!.getString(2) != "0"
+                    println("Id: $_id Display Name: $displayName Selected: $selected")
+                    calendarIds.add(CalendarName(_id, displayName))
+                }
+            }
+        } catch (ex: AssertionError) {
+            ex.printStackTrace()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return calendarIds
     }
 }
