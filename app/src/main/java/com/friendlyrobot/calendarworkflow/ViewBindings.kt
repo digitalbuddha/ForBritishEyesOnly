@@ -133,7 +133,7 @@ private fun ChooseRow(
     calendarName: CalendarName,
     onCalendarChosen: (calender: String) -> Unit
 ) {
-    Clickable(onClick = {onCalendarChosen(calendarName.id)}) {
+    Clickable(onClick = { onCalendarChosen(calendarName.id) }) {
         Row(modifier = DrawBackground(color = Color.Magenta)) {
             Text(
                 text = calendarName.title,

@@ -30,7 +30,7 @@ class HelloWorkflowActivity : AppCompatActivity() {
         setContentWorkflow(viewRegistry) {
             WorkflowRunner.Config(
                 mainWorkflow,
-                    diagnosticListener = SimpleLoggingDiagnosticListener()
+                diagnosticListener = SimpleLoggingDiagnosticListener()
             )
         }
     }

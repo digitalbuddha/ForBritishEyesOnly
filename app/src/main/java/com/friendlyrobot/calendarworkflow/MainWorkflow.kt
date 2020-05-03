@@ -29,7 +29,7 @@ class MainWorkflow constructor(
         return when (state) {
             is MainState.ChoosingCalendar -> context.renderChild(chooseWorkflow) {
                 action {
-                   nextState= MainState.ShowingEvents(
+                    nextState = MainState.ShowingEvents(
                         it
                     )
                 }

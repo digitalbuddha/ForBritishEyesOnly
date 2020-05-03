@@ -46,7 +46,7 @@ class ChooseWorkflow(
                 context.runningWorker(Worker.from {
                     calendarStore.get(Unit)
                 }) { action { nextState = State.ShowingCalendars(it) } }
-                context.renderChild(loadingWorkflow,"Loading Events")
+                context.renderChild(loadingWorkflow, "Loading Events")
             }
             is State.ShowingCalendars -> Rendering.Calenders(
                 calendars = state.calendars,
