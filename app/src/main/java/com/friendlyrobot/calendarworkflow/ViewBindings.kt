@@ -29,7 +29,7 @@ var date: String? = "yyyy-MM-dd"
 var simpleDateFormat: SimpleDateFormat = SimpleDateFormat(date)
 var timeFormatter: SimpleDateFormat = SimpleDateFormat(hour)
 
-val loadingRendering = bindCompose<CalendarWorkflow.Rendering.LoadingRending> { rendering, _ ->
+val loadingRendering = bindCompose<LoadingWorkflow.LoadingRending> { rendering, _ ->
     MaterialTheme {
         DrawHelloRendering(rendering.loadingMessage)
     }

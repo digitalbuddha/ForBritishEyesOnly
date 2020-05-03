@@ -78,6 +78,7 @@ dependencies {
     implementation "${workflow.group}:workflow-ui-modal-android:${workflow.version}"
     implementation "${workflow.group}:workflow-core-jvm:${workflow.version}"
     implementation "${workflow.group}:workflow-ui-core-compose:${workflow.version}"
+    implementation "${workflow.group}:workflow-testing-jvm:${workflow.version}"
 
     testImplementation 'junit:junit:4.13'
     testImplementation "com.google.truth:truth:1.0.1"

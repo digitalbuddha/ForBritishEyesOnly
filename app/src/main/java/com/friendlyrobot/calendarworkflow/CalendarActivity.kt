@@ -21,14 +21,16 @@ private val viewRegistry = ViewRegistry(
 class HelloWorkflowActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val calendarWorkflow = CalendarWorkflow(provideEventStore(applicationContext))
-        val chooseWorkflow = ChooseWorkflow(provideCalendarStore(applicationContext))
+        val calendarWorkflow =
+            CalendarWorkflow(provideEventStore(applicationContext), LoadingWorkflow)
+        val chooseWorkflow =
+            ChooseWorkflow(provideCalendarStore(applicationContext), LoadingWorkflow)
+        val mainWorkflow = MainWorkflow(calendarWorkflow, chooseWorkflow)
 
         setContentWorkflow(viewRegistry) {
             WorkflowRunner.Config(
-                MainWorkflow(calendarWorkflow, chooseWorkflow),
-                diagnosticListener = SimpleLoggingDiagnosticListener()
+                mainWorkflow,
+                    diagnosticListener = SimpleLoggingDiagnosticListener()
             )
         }
     }
